@@ -1,5 +1,5 @@
 const cheerio = require("cheerio");
-const puppeteer = require('puppeteer');
+const puppeteer = require("puppeteer");
 
 /**
  * @param songTitle {string} - google query.
@@ -8,11 +8,14 @@ const puppeteer = require('puppeteer');
  * getGeneratedSource("Hard day's night")
  */
 async function getGeneratedSource(songTitle) {
-  const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(songTitle)}+lyrics`;
-  console.log(googleUrl)
+  const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(
+    songTitle
+  )}+lyrics`;
+  console.log(googleUrl);
   const browser = await puppeteer.launch();
+  let page;
   try {
-    const page = await browser.newPage();
+    page = await browser.newPage();
     await page.goto(googleUrl);
     const html = await page.content();
     return html;
@@ -22,32 +25,25 @@ async function getGeneratedSource(songTitle) {
 }
 
 function parseSource(html) {
-  console.log("here")
-  console.log(html);
   let ret = [];
   const $ = cheerio.load(html);
-  const paras = $("div[data-lyricid] div[jsname]");
+  const paras = $("div[data-lyricid] div[jsname] div[jsname]");
   paras.each((i, p) => {
     if (i > 0) {
       ret.push("");
+      ret.push("");
     }
-    for (const c of p.childNodes) {
-      if (c.tagName === "span" && c.firstChild.tagName) {
-        console.log(c.textContent)
-        // for (const x in c) {
-        //   console.log(x)
-        // }
-      }
-    }
-  })
-  console.log(ret)
+    $("span[jsname]", p).each((_, s) => {
+      ret.push($(s).text());
+    });
+  });
+  console.log(ret);
 }
 
 async function main() {
   const search = process.argv[2];
   const html = await getGeneratedSource(search);
   console.log(parseSource(html));
-  
 }
 
 (async () => {

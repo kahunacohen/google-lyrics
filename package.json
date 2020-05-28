@@ -4,6 +4,7 @@
   "description": "",
   "main": "get.js",
   "scripts": {
+    "prettier": "prettier --write package.json get.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -11,5 +12,8 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "puppeteer": "^3.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.0.5"
   }
 }
