@@ -24,14 +24,29 @@ async function getGeneratedSource(songTitle) {
 function parseSource(html) {
   console.log("here")
   console.log(html);
+  let ret = [];
   const $ = cheerio.load(html);
-  return $("div[data-lyricid]").text();z
+  const paras = $("div[data-lyricid] div[jsname]");
+  paras.each((i, p) => {
+    if (i > 0) {
+      ret.push("");
+    }
+    for (const c of p.childNodes) {
+      if (c.tagName === "span" && c.firstChild.tagName) {
+        console.log(c.textContent)
+        // for (const x in c) {
+        //   console.log(x)
+        // }
+      }
+    }
+  })
+  console.log(ret)
 }
 
 async function main() {
   const search = process.argv[2];
   const html = await getGeneratedSource(search);
-  //console.log(parseSource(html));
+  console.log(parseSource(html));
   
 }
 
