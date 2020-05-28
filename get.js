@@ -1,41 +1,38 @@
 const cheerio = require("cheerio");
-const axios = require('axios');
 const puppeteer = require('puppeteer');
 
-
-async function getPageSource(title) {
-  let resp = null;
-  const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(title)}+lyrics`;
-  console.log(googleUrl);
-  try {
-    resp = await axios.get(googleUrl);
-    return resp.data;
-  } catch (e) {
-    throw new Error(`Error getting lyrics form ${googleUrl}: `, e.message);
-  }
-}
-function parse(html) {
-  const $ = cheerio.load(html);
-  console.log(html)
-
-  console.log($("span").length);
-
-}
-async function main() {
-
-  const search = process.argv[2];
-  const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(search)}+lyrics`;
+/**
+ * @param songTitle {string} - google query.
+ * @returns {string} - The generated page source.
+ * @example
+ * getGeneratedSource("Hard day's night")
+ */
+async function getGeneratedSource(songTitle) {
+  const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(songTitle)}+lyrics`;
+  console.log(googleUrl)
   const browser = await puppeteer.launch();
   try {
     const page = await browser.newPage();
     await page.goto(googleUrl);
     const html = await page.content();
-    const $ = cheerio.load(html);
-    const lyricEl = $("div[data-lyricid]").text();
-    console.log(lyricEl)
+    return html;
   } finally {
     browser.close();
   }
+}
+
+function parseSource(html) {
+  console.log("here")
+  console.log(html);
+  const $ = cheerio.load(html);
+  return $("div[data-lyricid]").text();z
+}
+
+async function main() {
+  const search = process.argv[2];
+  const html = await getGeneratedSource(search);
+  //console.log(parseSource(html));
+  
 }
 
 (async () => {
