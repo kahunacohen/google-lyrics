@@ -1,17 +1,16 @@
 {
   "name": "google-lyrics",
   "version": "1.0.0",
-  "description": "",
+  "description": "A package to screen scrape a lyric search on google.",
   "main": "get.js",
   "scripts": {
     "prettier": "prettier --write package.json get.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no tests specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Aaron Cohen",
+  "license": "Mozilla Public License 2.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
-    "node-lyrics": "^2.1.1",
     "puppeteer": "^3.1.0"
   },
   "devDependencies": {

@@ -23,6 +23,11 @@ async function getGeneratedSource(search) {
   }
 }
 
+/**
+ *
+ * @param {string} html - Generated html from a google search on lyrics.
+ * @returns {Array} - An object representing the lyrics.
+ */
 function parseSource(html) {
   let ret = [];
   const $ = cheerio.load(html);
@@ -48,3 +53,8 @@ async function main() {
 (async () => {
   await main();
 })();
+
+exports = {
+  getGeneratedSource,
+  parseSource,
+};
