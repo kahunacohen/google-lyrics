@@ -46,21 +46,17 @@ function parseSource(html) {
 /**
  * Search google for lyrics.
  * @param {string} q
+ * @returns {Array} - An array of lyrics
  * @example
- * await search("orange mandoline wildfire"); 
+ * await search("orange mandoline wildfire");
  */
 async function search(q) {
-  const html = await getGeneratedSource(search);
+  const html = await getGeneratedSource(q);
   return JSON.stringify(parseSource(html), null, 2);
 }
 
-(async () => {
-  const q = process.argv[2];
-  console.log(await search(q));
-})();
-
-exports = {
+module.exports = {
   getGeneratedSource,
   parseSource,
-  search
+  search,
 };

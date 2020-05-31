@@ -1,10 +1,14 @@
 {
   "name": "google-lyrics",
   "version": "1.0.0",
-  "description": "A package to screen scrape a lyric search on google.",
-  "main": "get.js",
+  "bin": {
+    "google-lyrics": "./src/cli.js"
+  },
+  "description": "A package to screen-scrape a lyric search on google.",
+  "main": "./src/index.js",
   "scripts": {
-    "prettier": "prettier --write package.json get.js",
+    "clean": "rm -rf node_modules && npm unlink",
+    "prettier": "prettier --write package.json src/*.js",
     "test": "echo \"Error: no tests specified\" && exit 1"
   },
   "author": "Aaron Cohen",
