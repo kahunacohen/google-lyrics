@@ -2,16 +2,15 @@ const cheerio = require("cheerio");
 const puppeteer = require("puppeteer");
 
 /**
- * @param songTitle {string} - google query.
+ * @param search {string} - google query.
  * @returns {string} - The generated page source.
  * @example
- * getGeneratedSource("Hard day's night")
+ * getGeneratedSource("Hard day's night beatles")
  */
-async function getGeneratedSource(songTitle) {
+async function getGeneratedSource(search) {
   const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(
-    songTitle
+    search
   )}+lyrics`;
-  console.log(googleUrl);
   const browser = await puppeteer.launch();
   let page;
   try {
@@ -37,13 +36,13 @@ function parseSource(html) {
       ret.push($(s).text());
     });
   });
-  console.log(ret);
+  return ret;
 }
 
 async function main() {
   const search = process.argv[2];
   const html = await getGeneratedSource(search);
-  console.log(parseSource(html));
+  console.log(JSON.stringify(parseSource(html), null, 2));
 }
 
 (async () => {
