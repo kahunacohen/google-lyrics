@@ -43,7 +43,12 @@ function parseSource(html) {
   });
   return ret;
 }
-
+/**
+ * Search google for lyrics.
+ * @param {string} q
+ * @example
+ * await search("orange mandoline wildfire"); 
+ */
 async function search(q) {
   const html = await getGeneratedSource(search);
   console.log(JSON.stringify(parseSource(html), null, 2));
@@ -57,4 +62,5 @@ async function search(q) {
 exports = {
   getGeneratedSource,
   parseSource,
+  search
 };
