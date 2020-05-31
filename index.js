@@ -51,12 +51,12 @@ function parseSource(html) {
  */
 async function search(q) {
   const html = await getGeneratedSource(search);
-  console.log(JSON.stringify(parseSource(html), null, 2));
+  return JSON.stringify(parseSource(html), null, 2);
 }
 
 (async () => {
   const q = process.argv[2];
-  await search(q);
+  console.log(await search(q));
 })();
 
 exports = {
