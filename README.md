@@ -1,11 +1,11 @@
 # google-lyrics
 
+A JavaScript webscraper which tries to get lyrics from a simple google search.
+
 ## Caveats
 * Proper use of an artist's lyrics in relation to copyright laws is the users' responsiblity. Respect artist's copyrights.
 * Because this is a screen-scraper the parsing of Google's search results is brittle and relies on a specific DOM structure. If
 you rely on this module, keep an eye out on whether it continues to work. 
-
-A JavaScript webscraper which tries to get lyrics from a simple google search.
 
 ## Install
 `$ npm install google-lyrics`
