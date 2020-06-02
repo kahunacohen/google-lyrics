@@ -31,19 +31,20 @@ async function getGeneratedSource(search) {
  * @returns {Array} - An object representing the lyrics.
  */
 function parseSource(html) {
-  let ret = [];
   const $ = cheerio.load(html);
+  const title = $("div[data-attrid=title] span").first().text();
   const paras = $("div[data-lyricid] div[jsname] div[jsname]");
+  let lyrics = [];
   paras.each((i, p) => {
     if (i > 0) {
-      ret.push("");
-      ret.push("");
+      lyrics.push("");
+      lyrics.push("");
     }
     $("span[jsname]", p).each((_, s) => {
-      ret.push($(s).text());
+      lyrics.push($(s).text());
     });
   });
-  return ret;
+  return {title, lyrics};
 }
 /**
  * Search google for lyrics.
