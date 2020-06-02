@@ -2,8 +2,8 @@
   "name": "google-lyrics",
   "version": "0.0.3",
   "repository": {
-    "type" : "git",
-    "url" : "git@github.com:kahunacohen/google-lyrics.git"
+    "type": "git",
+    "url": "git@github.com:kahunacohen/google-lyrics.git"
   },
   "bin": {
     "google-lyrics": "./src/cli.js"
@@ -19,7 +19,8 @@
   "license": "Mozilla Public License 2.0",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
-    "puppeteer": "^3.1.0"
+    "puppeteer": "^3.1.0",
+    "yargs": "^15.3.1"
   },
   "devDependencies": {
     "prettier": "^2.0.5"
