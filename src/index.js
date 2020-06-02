@@ -1,6 +1,8 @@
 const cheerio = require("cheerio");
 const puppeteer = require("puppeteer");
 
+const EOL = require("os").EOL;
+
 /**
  * @param search {string} - google query.
  * @returns {string} - The generated page source.
@@ -46,13 +48,21 @@ function parseSource(html) {
 /**
  * Search google for lyrics.
  * @param {string} q
+ * @param {String} - "text" or "json"
  * @returns {Array} - An array of lyrics
  * @example
- * await search("orange mandoline wildfire");
+ * await search("orange mandoline wildfire", "text");
  */
-async function search(q) {
+async function search(q, format) {
   const html = await getGeneratedSource(q);
-  return JSON.stringify(parseSource(html), null, 2);
+  const lyrics = parseSource(html);
+  if (format.toLowerCase() === "json") {
+    return JSON.stringify(lyrics, null, 2);
+  } else if (format.toLowerCase() === "text") {
+    return lyrics.join(EOL);
+  } else {
+    throw new Error(`format, "${format}" not recognized.`);
+  }
 }
 
 module.exports = {

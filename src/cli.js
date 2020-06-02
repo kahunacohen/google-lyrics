@@ -3,6 +3,8 @@
 const fs = require("fs");
 const path = require("path");
 
+const { search } = require("./index");
+
 const getVersion = () => {
   let splitDirname = __dirname.split(path.sep);
   splitDirname.pop();
@@ -26,9 +28,13 @@ const argv = require("yargs")
   .help("h")
   .alias("h", "help").argv;
 
-const { search } = require("./index");
-
 (async function main() {
   const q = argv._[0];
-  console.log(await search(q));
+  const format = argv.format || "text";
+  try {
+    console.log(await search(q, format));
+  } catch (e) {
+    console.error("Problem getting lyrics: ", e.message);
+    process.exit(1);
+  }
 })();

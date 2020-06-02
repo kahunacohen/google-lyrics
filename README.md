@@ -10,11 +10,11 @@ you rely on this module, keep an eye out on whether it continues to work.
 ## Install
 `$ npm install google-lyrics`
 
-## Use
+## CLI
 The package installs the script `google-lyrics` into your path, so you can do:
 
 ```
-$ google-lyrics "row row row your boat"
+$ google-lyrics -f json "row row row your boat"
 google-lyrics "row row row your boat"
 [
   "Row, row, row your boat",
@@ -47,12 +47,15 @@ google-lyrics "row row row your boat"
 ]
 ```
 
+To output text, pass `text` with the `-f` option, or don't invoke the script with `-f`.
+
+## As Module
 You can also use as a module in another node script:
 
 ```js
 const { search } = require("google-lyrics");
 
-search("row row row your boat").then(lyrics => console.log(lyrics));
+search("row row row your boat", "json").then(lyrics => console.log(lyrics));
 ```
 
 You can also import from `google-lyrics` `getGeneratedSource`, which takes a search term as a parameter and returns
