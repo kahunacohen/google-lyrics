@@ -13,15 +13,18 @@ async function getGeneratedSource(search) {
   const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(
     search
   )}+lyrics`;
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({headless: false, args: ['--lang=en-US']});
   let page;
   try {
     page = await browser.newPage();
+    await page.setExtraHTTPHeaders({
+      'Accept-Language': 'en-US'
+  });
     await page.goto(googleUrl);
     const html = await page.content();
     return html;
   } finally {
-    browser.close();
+    //browser.close();
   }
 }
 
@@ -33,6 +36,7 @@ async function getGeneratedSource(search) {
 function parseSource(html) {
   const $ = cheerio.load(html);
   const title = $("div[data-attrid=title] span").first().text();
+  const author = $("div[data-attrid=subtitle] span a").text()
   const paras = $("div[data-lyricid] div[jsname] div[jsname]");
   let lyrics = [];
   paras.each((i, p) => {
@@ -44,7 +48,7 @@ function parseSource(html) {
       lyrics.push($(s).text());
     });
   });
-  return {title, lyrics};
+  return {title, author, lyrics};
 }
 /**
  * Search google for lyrics.
