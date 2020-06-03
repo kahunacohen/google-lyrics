@@ -13,12 +13,24 @@ async function getGeneratedSource(search) {
   const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(
     search
   )}+lyrics`;
-  const browser = await puppeteer.launch({headless: false, args: ['--lang=en-US']});
+  const browser = await puppeteer.launch({ headless: false, args: ['--lang=en-US,en'] });
   let page;
   try {
     page = await browser.newPage();
     await page.setExtraHTTPHeaders({
       'Accept-Language': 'en-US'
+    });
+    await page.evaluateOnNewDocument(() => {
+      Object.defineProperty(navigator, "language", {
+          get: function() {
+              return ["en-US"];
+          }
+      });
+      Object.defineProperty(navigator, "languages", {
+          get: function() {
+              return ["en-US", "en"];
+          }
+      });
   });
     await page.goto(googleUrl);
     const html = await page.content();
@@ -48,7 +60,7 @@ function parseSource(html) {
       lyrics.push($(s).text());
     });
   });
-  return {title, author, lyrics};
+  return { title, author, lyrics };
 }
 /**
  * Search google for lyrics.
