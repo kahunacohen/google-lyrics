@@ -56,11 +56,11 @@ function parseSource(html) {
  */
 async function search(q, format) {
   const html = await getGeneratedSource(q);
-  const lyrics = parseSource(html);
+  const song = parseSource(html);
   if (format.toLowerCase() === "json") {
-    return JSON.stringify(lyrics, null, 2);
+    return JSON.stringify(song, null, 2);
   } else if (format.toLowerCase() === "text") {
-    return lyrics.join(EOL);
+    return `${song.title}${EOL}${EOL}${song.lyrics.join(EOL)}`;
   } else {
     throw new Error(`format, "${format}" not recognized.`);
   }
