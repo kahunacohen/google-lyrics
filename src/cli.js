@@ -20,19 +20,40 @@ const argv = require("yargs")
   .usage("$ google-lyrics [-f | --format (json|text)] query")
   .example("google-lyrics -f json 'beatles help'")
   .demandCommand(1) // Require one arg (the query).
+  .option("k", {
+    alias: "keep-browser-open",
+    type: "boolean",
+    default: false,
+    describe:
+      "Whether to close the browser or not. Defaults to true. Useful with --headless switch for debugging",
+  })
   .option("f", {
     alias: "format",
+    default: "text",
+    type: "string",
     describe:
       "Format of output ('json' or 'text'). Without setting, defaults to text",
+  })
+  .option("e", {
+    alias: "headful",
+    type: "boolean",
+    default: false,
+    describe:
+      "Boolean flag whether to run the browser headless or not. Useful when debugging and in conjunction with --keep-browser-open flag.",
   })
   .help("h")
   .alias("h", "help").argv;
 
 (async function main() {
   const q = argv._[0];
-  const format = argv.format || "text";
   try {
-    console.log(await search(q, format));
+    console.log(
+      await search(q, {
+        headful: argv.headful,
+        format: argv.format,
+        keepBrowserOpen: argv.keepBrowserOpen,
+      })
+    );
   } catch (e) {
     console.error("Problem getting lyrics: ", e.message);
     process.exit(1);
