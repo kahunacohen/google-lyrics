@@ -51,7 +51,6 @@ function parseSource(html) {
   paras.each((i, p) => {
     if (i > 0) {
       lyrics.push("");
-      lyrics.push("");
     }
     $("span[jsname]", p).each((_, s) => {
       lyrics.push($(s).text());
